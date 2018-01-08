@@ -3,8 +3,10 @@
     <div class="information" v-html="information"></div>
     <div class="add-to-cart-panel">
       <div class="title" v-text="title"></div>
-      <select name="product" id="" v-model="selectedProductId">
-        <option v-for="(product, key) in products" :value="product.id" :key="product.id" v-text="product.title"></option>
+      <select v-for="(type, index) in types" v-model="collects[index]" @change="updateProductId">
+        <option v-for="attribute in type" :value="attribute.id" :key="attribute.id">
+          {{ attribute.name }}
+        </option>
       </select>
       <span class="price">{{ selectedProductPrice }}</span>
     </div>
@@ -16,10 +18,17 @@
     name: 'landing-page',
     created () {
       this.selectedProductId = this.hasProducts() ? this.products[0].id : undefined
+      this.collects = this.hasProducts() ? this.products[0].types : []
     },
     methods: {
       hasProducts () {
         return this.products.length > 0
+      },
+
+      updateProductId () {
+        this.selectedProductId = this.products.find(product =>
+          this.collects.reduce((result, collect) => result && product.types.includes(collect), true)
+        )
       }
     },
     computed: {
@@ -32,6 +41,8 @@
       return {
         title: '',
         information: '',
+        collects: [],
+        types: [],
         products: [],
         selectedProductId: undefined
       }

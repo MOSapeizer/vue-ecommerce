@@ -30,9 +30,14 @@ describe('LandingPage.vue', () => {
     beforeEach(() => {
       model = {
         title: '產品模組標題',
+        types: [
+          [{id: 1, name: '紅'}, {id: 2, name: '黑'}, {id: 3, name: '白'}],
+          [{id: 4, name: 'S'}, {id: 5, name: 'M'}, {id: 6, name: 'L'}]
+        ],
         products: [
-          {id: 1, title: '產品方案', price: 350},
-          {id: 2, title: '產品方案2', price: 450},
+          {id: 1, types: [1, 4], price: 350},
+          {id: 2, types: [2, 5], price: 350},
+          {id: 3, types: [3, 6], price: 350}
         ]
       }
 
@@ -51,9 +56,8 @@ describe('LandingPage.vue', () => {
     })
 
     it('預設顯示第一個產品的資訊', () => {
-      const $productSelect = `${cartPanel} select`
-      expectTo.contain($productSelect)
-      expectTo.see('產品方案', $productSelect)
+      expectTo.see('紅', cartPanel)
+      expectTo.see('S', cartPanel)
 
       const $productPrice = `${cartPanel} .price`
       expectTo.contain($productPrice)
