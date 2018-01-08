@@ -20,6 +20,9 @@ module.exports = {
   /*
   ** Build configuration
   */
+  css: [
+    'bootstrap/dist/css/bootstrap.min.css'
+  ],
   build: {
     /*
     ** Run ESLint on save
