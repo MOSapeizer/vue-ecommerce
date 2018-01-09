@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import { mapState, mapMutations } from 'vuex'
+
   export default {
     name: 'landing-page',
     created () {
@@ -22,6 +24,7 @@
       this.collects = this.hasProducts() ? this.products[0].types : []
     },
     methods: {
+      ...mapMutations(['add']),
       hasProducts () {
         return this.products.length > 0
       },
@@ -33,11 +36,11 @@
       },
 
       addToCart () {
-        let product = this.cart.products.find(product => product.id === this.selectedProductId)
-        product ? product.count += 1 : this.cart.products.push({id: this.selectedProductId, count: 1})
+        this.add(this.selectedProductId)
       }
     },
     computed: {
+      ...mapState(['cart']),
       selectedProductPrice () {
         let product = this.products.find(product => product.id === this.selectedProductId)
         return product ? product.price : 0
@@ -50,9 +53,6 @@
         collects: [],
         types: [],
         products: [],
-        cart: {
-          products: []
-        },
         selectedProductId: undefined
       }
     }

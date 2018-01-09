@@ -1,9 +1,10 @@
-import { mount } from 'vue-test-utils'
+import { mount, shallow, createLocalVue } from 'vue-test-utils'
 import LandingPage from '~/components/LandingPage'
 import { helper } from '~/test/helper'
+import Vuex from 'vuex'
 
 describe('LandingPage.vue', () => {
-  let wrapper, expectTo, model
+  let wrapper, expectTo, model, mutations, store
 
   describe('產品資訊區塊', () => {
 
@@ -26,8 +27,19 @@ describe('LandingPage.vue', () => {
   describe('產品選擇區塊', () => {
 
     const cartPanel = '.add-to-cart-panel'
+    const localVue = createLocalVue()
+
+    localVue.use(Vuex)
 
     beforeEach(() => {
+      mutations = {
+        add: jest.fn(),
+      }
+      store = new Vuex.Store({
+        state: {},
+        mutations
+      })
+
       model = {
         title: '產品模組標題',
         types: [
@@ -41,7 +53,7 @@ describe('LandingPage.vue', () => {
         ]
       }
 
-      wrapper = mount(LandingPage, {data: model})
+      wrapper = shallow(LandingPage, {data: model, store, localVue})
       expectTo = helper(wrapper, expect)
     })
 
@@ -85,25 +97,9 @@ describe('LandingPage.vue', () => {
       expectTo.see('加入購物車', '.add-to-cart-button')
     })
 
-    it('按加入，要把產品 id 和數量加到購物車', () => {
+    it('按加入，要觸發加入購物車的 action', () => {
       expectTo.click('.add-to-cart-button')
-      expect(wrapper.vm.cart.products.length).toEqual(1)
-      expect(wrapper.vm.cart.products[0].id).toEqual(1)
-      expect(wrapper.vm.cart.products[0].count).toEqual(1)
-    })
-
-    it('如果產品已經在購物車，數量 +1', () => {
-      expectTo.click('.add-to-cart-button')
-      expect(wrapper.vm.cart.products.length).toEqual(1)
-      expect(wrapper.vm.cart.products[0].id).toEqual(1)
-      expect(wrapper.vm.cart.products[0].count).toEqual(1)
-
-      expectTo.click('.add-to-cart-button')
-      expectTo.click('.add-to-cart-button')
-      expectTo.click('.add-to-cart-button')
-      expect(wrapper.vm.cart.products.length).toEqual(1)
-      expect(wrapper.vm.cart.products[0].id).toEqual(1)
-      expect(wrapper.vm.cart.products[0].count).toEqual(4)
+      expect(mutations.add).toHaveBeenCalled()
     })
   })
 
