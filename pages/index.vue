@@ -1,6 +1,5 @@
 <template>
   <section class="container p-0">
-    <landing-page></landing-page>
   </section>
 </template>
 

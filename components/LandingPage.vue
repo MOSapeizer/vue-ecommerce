@@ -9,6 +9,7 @@
         </option>
       </select>
       <span class="price">{{ selectedProductPrice }}</span>
+      <button class="add-to-cart-button" @click="addToCart"> 加入購物車</button>
     </div>
   </div>
 </template>
@@ -29,6 +30,11 @@
         this.selectedProductId = this.products.find(product =>
           this.collects.reduce((result, collect) => result && product.types.includes(collect), true)
         )
+      },
+
+      addToCart () {
+        let product = this.cart.products.find(product => product.id === this.selectedProductId)
+        product ? product.count += 1 : this.cart.products.push({id: this.selectedProductId, count: 1})
       }
     },
     computed: {
@@ -44,6 +50,9 @@
         collects: [],
         types: [],
         products: [],
+        cart: {
+          products: []
+        },
         selectedProductId: undefined
       }
     }

@@ -79,6 +79,32 @@ describe('LandingPage.vue', () => {
       expectTo.contain($productPrice)
       expectTo.see(model.products[1].price, $productPrice)
     })
+
+    it('要有加入購物車的按鈕', () => {
+      expectTo.contain('.add-to-cart-button')
+      expectTo.see('加入購物車', '.add-to-cart-button')
+    })
+
+    it('按加入，要把產品 id 和數量加到購物車', () => {
+      expectTo.click('.add-to-cart-button')
+      expect(wrapper.vm.cart.products.length).toEqual(1)
+      expect(wrapper.vm.cart.products[0].id).toEqual(1)
+      expect(wrapper.vm.cart.products[0].count).toEqual(1)
+    })
+
+    it('如果產品已經在購物車，數量 +1', () => {
+      expectTo.click('.add-to-cart-button')
+      expect(wrapper.vm.cart.products.length).toEqual(1)
+      expect(wrapper.vm.cart.products[0].id).toEqual(1)
+      expect(wrapper.vm.cart.products[0].count).toEqual(1)
+
+      expectTo.click('.add-to-cart-button')
+      expectTo.click('.add-to-cart-button')
+      expectTo.click('.add-to-cart-button')
+      expect(wrapper.vm.cart.products.length).toEqual(1)
+      expect(wrapper.vm.cart.products[0].id).toEqual(1)
+      expect(wrapper.vm.cart.products[0].count).toEqual(4)
+    })
   })
 
 })
