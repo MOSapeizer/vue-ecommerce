@@ -3,6 +3,7 @@
     <header>
       <nav>
         <nuxt-link to="/">首頁</nuxt-link>
+        <nuxt-link to="/product/234">hello</nuxt-link>
       </nav>
     </header>
     <nuxt/>
