@@ -5,10 +5,8 @@
 <script>
   export default {
     name: 'landing-page',
-    props () {
-      return {
-        html: ''
-      }
+    props: {
+      html: ''
     }
   }
 </script>
