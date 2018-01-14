@@ -11,5 +11,8 @@
   }
 </script>
 
-<style scoped>
+<style lang="sass">
+  .information img
+    width: 100%
+    height: auto
 </style>
