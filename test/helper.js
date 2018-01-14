@@ -9,6 +9,10 @@ export const helper = (wrapper, expect) => {
       wrapper.find(selector).trigger('click')
     },
 
+    submit: (selector) => {
+      wrapper.find(selector).trigger('submit')
+    },
+
     contain: (selector) => {
       expect(wrapper.contains(selector)).toBe(true)
     },
@@ -20,6 +24,14 @@ export const helper = (wrapper, expect) => {
     picture: (name, selector) => {
       let wrap = selector ? wrapper.find(selector) : wrapper
 
+      expect(wrap.is("img")).toBe(true);
+      expect(wrap.element.src).toContain(name)
+    },
+
+    hasPicture: (name, selector) => {
+      let wrap = selector ? wrapper.find(selector) : wrapper
+
+      wrap = wrap.find('img')
       expect(wrap.element.src).toContain(name)
     },
 

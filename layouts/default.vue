@@ -2,8 +2,9 @@
   <div>
     <header>
       <nav>
-        <nuxt-link to="/">首頁</nuxt-link>
-        <nuxt-link to="/product/234">hello</nuxt-link>
+        <nuxt-link class="p-2" to="/">首頁</nuxt-link>
+        <nuxt-link class="p-2" to="/product/234">產品頁</nuxt-link>
+        <nuxt-link class="p-2" to="/checkout">結帳頁</nuxt-link>
       </nav>
     </header>
     <nuxt/>
